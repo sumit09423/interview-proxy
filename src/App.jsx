@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import {
+  COMMUNITY_PERKS,
   EMAIL,
   PROCESS_STEPS,
   SERVICES,
+  SETUP_DOC_LINK,
   SETUP_GUIDE,
   TEAM_DE,
   TEAM_DEVOPS,
   TEAM_SDE,
   TESTIMONIALS,
+  WHATSAPP_COMMUNITY,
   WHATSAPP_LINK,
 } from "./data/siteContent.js";
 import { useCounter } from "./hooks/useCounter.js";
@@ -128,6 +131,7 @@ function Navbar() {
     { label:"Process", href:"#process" },
     { label:"Pricing", href:"#pricing" },
     { label:"Reviews", href:"#testimonials" },
+    { label:"Job Updates", href:"#community" },
     { label:"Contact", href:"#contact" },
   ];
 
@@ -214,6 +218,122 @@ function HeroSection() {
         </div>
       </div>
     </section>
+  );
+}
+
+function CommunityBanner() {
+  const [ref, iv] = useInView(0.1);
+  const [h, setH] = useState(false);
+  return (
+    <div
+      ref={ref}
+      style={{
+        maxWidth: 1100,
+        margin: "-20px auto 0",
+        padding: "0 24px",
+        position: "relative",
+        zIndex: 10,
+        opacity: iv ? 1 : 0,
+        transform: iv ? "translateY(0)" : "translateY(20px)",
+        transition: "all 0.7s cubic-bezier(.22,1,.36,1) 0.1s",
+      }}
+    >
+      <a
+        href={WHATSAPP_COMMUNITY}
+        target="_blank"
+        rel="noopener noreferrer"
+        onMouseEnter={() => setH(true)}
+        onMouseLeave={() => setH(false)}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 16,
+          flexWrap: "wrap",
+          padding: "20px 32px",
+          borderRadius: 18,
+          background: h ? "linear-gradient(135deg, rgba(37,211,102,0.18), rgba(0,229,160,0.12))" : "linear-gradient(135deg, rgba(37,211,102,0.1), rgba(0,229,160,0.06))",
+          border: "1px solid rgba(37,211,102,0.3)",
+          textDecoration: "none",
+          transition: "all 0.4s cubic-bezier(.22,1,.36,1)",
+          transform: h ? "translateY(-2px)" : "translateY(0)",
+          boxShadow: h ? "0 8px 40px rgba(37,211,102,0.2)" : "0 4px 20px rgba(37,211,102,0.1)",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: "-100%",
+            width: "200%",
+            height: "100%",
+            background: "linear-gradient(90deg, transparent 0%, rgba(37,211,102,0.06) 50%, transparent 100%)",
+            animation: "shimmer 3s ease-in-out infinite",
+          }}
+        />
+
+        <div style={{ display: "flex", alignItems: "center", gap: 10, position: "relative", zIndex: 1 }}>
+          <div
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: 12,
+              background: "rgba(37,211,102,0.2)",
+              border: "1px solid rgba(37,211,102,0.3)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              animation: "pulse 2s infinite",
+            }}
+          >
+            <WA size={22} fill="#25D366" />
+          </div>
+          <div>
+            <span
+              style={{
+                color: "#25D366",
+                fontSize: ".75rem",
+                fontWeight: 800,
+                fontFamily: "'Outfit',sans-serif",
+                letterSpacing: ".1em",
+                textTransform: "uppercase",
+                display: "block",
+              }}
+            >
+              🔥 FREE JOB UPDATES
+            </span>
+            <span style={{ color: "#C5C9D2", fontSize: ".95rem", fontWeight: 500, fontFamily: "'DM Sans',sans-serif" }}>Join our WhatsApp Community — Latest jobs posted daily!</span>
+          </div>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            background: "#25D366",
+            color: "#fff",
+            padding: "10px 24px",
+            borderRadius: 50,
+            fontWeight: 800,
+            fontSize: ".88rem",
+            fontFamily: "'Outfit',sans-serif",
+            position: "relative",
+            zIndex: 1,
+            boxShadow: "0 0 20px rgba(37,211,102,0.3)",
+            whiteSpace: "nowrap",
+          }}
+        >
+          Join Now — It&apos;s Free
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
+          </svg>
+        </div>
+      </a>
+    </div>
   );
 }
 
@@ -510,49 +630,228 @@ function TeamSection() {
    SETUP GUIDE
    ═══════════════════════════════════════════ */
 
+const SETUP_TOOL_BADGES = [
+  { name: "Chrome Remote Desktop", icon: "🖥️", color: "#4285F4" },
+  { name: "Otter.ai", icon: "🧠", color: "#7B61FF" },
+  { name: "Google Meet", icon: "🎙️", color: "#00E5A0" },
+  { name: "Wired Headphones", icon: "🎧", color: "#FF6B35" },
+];
+
+function ExternalLinkIcon({ size = 16, stroke = "currentColor" }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+      <polyline points="15 3 21 3 21 9" />
+      <line x1="10" y1="14" x2="21" y2="3" />
+    </svg>
+  );
+}
+
 function SetupGuideSection() {
-  const [ref,iv] = useInView(.1);
+  const [ref, iv] = useInView(0.1);
   const [act, setAct] = useState(0);
   return (
-    <section id="setup-guide" style={{padding:"100px 24px",position:"relative"}}>
-      <div style={{position:"absolute",inset:0,background:"linear-gradient(180deg,transparent,rgba(123,97,255,.03),transparent)"}}/>
-      <div style={{maxWidth:1100,margin:"0 auto",position:"relative"}}>
-        <div ref={ref} style={{textAlign:"center",marginBottom:64,opacity:iv?1:0,transform:iv?"translateY(0)":"translateY(30px)",transition:"all .7s cubic-bezier(.22,1,.36,1)"}}>
-          <span style={{color:"#7B61FF",fontSize:".85rem",fontWeight:700,letterSpacing:".12em",textTransform:"uppercase",fontFamily:"'Outfit',sans-serif"}}>SETUP GUIDE</span>
-          <h2 style={{fontSize:"clamp(2rem,4vw,3.2rem)",fontWeight:900,color:"#fff",fontFamily:"'Outfit',sans-serif",margin:"12px 0 16px",letterSpacing:"-0.02em"}}>Interview Proxy Setup</h2>
-          <p style={{color:"#6B7280",fontSize:"1.1rem",maxWidth:600,margin:"0 auto",fontFamily:"'DM Sans',sans-serif",lineHeight:1.6}}>Follow these steps to prepare for a seamless proxy interview experience.</p>
+    <section id="setup-guide" style={{ padding: "100px 24px", position: "relative" }}>
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,transparent,rgba(123,97,255,.03),transparent)" }} />
+      <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative" }}>
+        <div
+          ref={ref}
+          style={{
+            textAlign: "center",
+            marginBottom: 48,
+            opacity: iv ? 1 : 0,
+            transform: iv ? "translateY(0)" : "translateY(30px)",
+            transition: "all .7s cubic-bezier(.22,1,.36,1)",
+          }}
+        >
+          <span style={{ color: "#7B61FF", fontSize: ".85rem", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", fontFamily: "'Outfit',sans-serif" }}>SETUP GUIDE</span>
+          <h2 style={{ fontSize: "clamp(2rem,4vw,3.2rem)", fontWeight: 900, color: "#fff", fontFamily: "'Outfit',sans-serif", margin: "12px 0 16px", letterSpacing: "-0.02em" }}>Interview Proxy Setup Instructions</h2>
+          <p style={{ color: "#8A8F98", fontSize: "1.05rem", maxWidth: 650, margin: "0 auto", fontFamily: "'DM Sans',sans-serif", lineHeight: 1.7 }}>
+            For interviews, we use <span style={{ color: "#fff", fontWeight: 600 }}>Chrome Remote Desktop</span> for remote access and <span style={{ color: "#fff", fontWeight: 600 }}>Otter</span> for voice assistance. Please ensure the following setup is ready before the interview.
+          </p>
         </div>
-        <div style={{display:"flex",gap:8,justifyContent:"center",flexWrap:"wrap",marginBottom:40}}>
-          {SETUP_GUIDE.map((s,i)=>(
-            <button key={s.step} onClick={()=>setAct(i)} style={{background:act===i?"rgba(123,97,255,.15)":"rgba(255,255,255,.03)",border:`1px solid ${act===i?"rgba(123,97,255,.4)":"rgba(255,255,255,.06)"}`,borderRadius:12,padding:"12px 20px",cursor:"pointer",color:act===i?"#fff":"#6B7280",fontFamily:"'Outfit',sans-serif",fontWeight:600,fontSize:".85rem",transition:"all .3s",display:"flex",alignItems:"center",gap:8}}>
-              <span style={{fontSize:"1.1rem"}}>{s.icon}</span><span className="guide-tab-label">{s.title}</span>
+
+        <div
+          style={{
+            display: "flex",
+            gap: 12,
+            justifyContent: "center",
+            flexWrap: "wrap",
+            marginBottom: 40,
+            opacity: iv ? 1 : 0,
+            transform: iv ? "translateY(0)" : "translateY(20px)",
+            transition: "all .7s cubic-bezier(.22,1,.36,1) .15s",
+          }}
+        >
+          {SETUP_TOOL_BADGES.map((t) => (
+            <div
+              key={t.name}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                background: `${t.color}10`,
+                border: `1px solid ${t.color}25`,
+                borderRadius: 50,
+                padding: "8px 18px",
+              }}
+            >
+              <span style={{ fontSize: ".95rem" }}>{t.icon}</span>
+              <span style={{ color: t.color, fontSize: ".82rem", fontWeight: 700, fontFamily: "'Outfit',sans-serif" }}>{t.name}</span>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap", marginBottom: 40 }}>
+          {SETUP_GUIDE.map((s, i) => (
+            <button
+              key={s.step}
+              type="button"
+              onClick={() => setAct(i)}
+              style={{
+                background: act === i ? "rgba(123,97,255,.15)" : "rgba(255,255,255,.03)",
+                border: `1px solid ${act === i ? "rgba(123,97,255,.4)" : "rgba(255,255,255,.06)"}`,
+                borderRadius: 12,
+                padding: "12px 20px",
+                cursor: "pointer",
+                color: act === i ? "#fff" : "#6B7280",
+                fontFamily: "'Outfit',sans-serif",
+                fontWeight: 600,
+                fontSize: ".85rem",
+                transition: "all .3s",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
+              <span style={{ fontSize: "1.1rem" }}>{s.icon}</span>
+              <span className="guide-tab-label">{s.title}</span>
             </button>
           ))}
         </div>
-        <div style={{background:"rgba(255,255,255,.02)",border:"1px solid rgba(255,255,255,.06)",borderRadius:24,padding:"clamp(28px,5vw,48px)",position:"relative",overflow:"hidden"}}>
-          <div style={{position:"absolute",top:0,left:0,right:0,height:3,background:`linear-gradient(90deg,#7B61FF ${((act+1)/SETUP_GUIDE.length)*100}%,rgba(255,255,255,.06) 0%)`,transition:"background .5s"}}/>
-          <div style={{display:"flex",alignItems:"center",gap:16,marginBottom:32}}>
-            <div style={{fontSize:"2.5rem",width:64,height:64,borderRadius:16,background:"rgba(123,97,255,.1)",display:"flex",alignItems:"center",justifyContent:"center",border:"1px solid rgba(123,97,255,.2)"}}>{SETUP_GUIDE[act].icon}</div>
+
+        <div style={{ background: "rgba(255,255,255,.02)", border: "1px solid rgba(255,255,255,.06)", borderRadius: 24, padding: "clamp(28px,5vw,48px)", position: "relative", overflow: "hidden" }}>
+          <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: `linear-gradient(90deg,#7B61FF ${((act + 1) / SETUP_GUIDE.length) * 100}%,rgba(255,255,255,.06) 0%)`, transition: "background .5s" }} />
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 32 }}>
+            <div style={{ fontSize: "2.5rem", width: 64, height: 64, borderRadius: 16, background: "rgba(123,97,255,.1)", display: "flex", alignItems: "center", justifyContent: "center", border: "1px solid rgba(123,97,255,.2)" }}>{SETUP_GUIDE[act].icon}</div>
             <div>
-              <span style={{color:"#7B61FF",fontSize:".8rem",fontWeight:700,fontFamily:"'Outfit',sans-serif",letterSpacing:".1em"}}>STEP {SETUP_GUIDE[act].step}</span>
-              <h3 style={{color:"#fff",fontSize:"1.5rem",fontWeight:800,fontFamily:"'Outfit',sans-serif",margin:0}}>{SETUP_GUIDE[act].title}</h3>
+              <span style={{ color: "#7B61FF", fontSize: ".8rem", fontWeight: 700, fontFamily: "'Outfit',sans-serif", letterSpacing: ".1em" }}>STEP {SETUP_GUIDE[act].step}</span>
+              <h3 style={{ color: "#fff", fontSize: "1.5rem", fontWeight: 800, fontFamily: "'Outfit',sans-serif", margin: 0 }}>{SETUP_GUIDE[act].title}</h3>
             </div>
           </div>
-          <div style={{display:"grid",gap:16}}>
-            {SETUP_GUIDE[act].items.map((item,i)=>(
-              <div key={i} style={{display:"flex",gap:16,alignItems:"flex-start",background:"rgba(255,255,255,.02)",borderRadius:14,padding:"18px 20px",border:"1px solid rgba(255,255,255,.04)",transition:"all .3s"}}
-                onMouseEnter={e=>{e.currentTarget.style.background="rgba(123,97,255,.05)";e.currentTarget.style.borderColor="rgba(123,97,255,.15)";}}
-                onMouseLeave={e=>{e.currentTarget.style.background="rgba(255,255,255,.02)";e.currentTarget.style.borderColor="rgba(255,255,255,.04)";}}
+          <div style={{ display: "grid", gap: 16 }}>
+            {SETUP_GUIDE[act].items.map((item, i) => (
+              <div
+                key={i}
+                style={{ display: "flex", gap: 16, alignItems: "flex-start", background: "rgba(255,255,255,.02)", borderRadius: 14, padding: "18px 20px", border: "1px solid rgba(255,255,255,.04)", transition: "all .3s" }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(123,97,255,.05)";
+                  e.currentTarget.style.borderColor = "rgba(123,97,255,.15)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "rgba(255,255,255,.02)";
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,.04)";
+                }}
               >
-                <div style={{width:28,height:28,borderRadius:8,background:"rgba(123,97,255,.15)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,color:"#7B61FF",fontSize:".75rem",fontWeight:800,fontFamily:"'Outfit',sans-serif"}}>{i+1}</div>
-                <p style={{color:"#C5C9D2",fontSize:".95rem",lineHeight:1.6,fontFamily:"'DM Sans',sans-serif",margin:0}}>{item}</p>
+                <div style={{ width: 28, height: 28, borderRadius: 8, background: "rgba(123,97,255,.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: "#7B61FF", fontSize: ".75rem", fontWeight: 800, fontFamily: "'Outfit',sans-serif" }}>{i + 1}</div>
+                <p style={{ color: "#C5C9D2", fontSize: ".95rem", lineHeight: 1.6, fontFamily: "'DM Sans',sans-serif", margin: 0 }}>{item}</p>
               </div>
             ))}
           </div>
-          <div style={{display:"flex",justifyContent:"space-between",marginTop:32,paddingTop:24,borderTop:"1px solid rgba(255,255,255,.06)"}}>
-            <button onClick={()=>setAct(Math.max(0,act-1))} disabled={act===0} style={{background:"rgba(255,255,255,.05)",border:"1px solid rgba(255,255,255,.1)",borderRadius:10,padding:"10px 20px",color:act===0?"#3B3F46":"#B0B5BE",fontFamily:"'Outfit',sans-serif",fontWeight:600,fontSize:".85rem",cursor:act===0?"default":"pointer",transition:"all .2s"}}>← Previous</button>
-            <button onClick={()=>setAct(Math.min(SETUP_GUIDE.length-1,act+1))} disabled={act===SETUP_GUIDE.length-1} style={{background:act===SETUP_GUIDE.length-1?"rgba(255,255,255,.05)":"rgba(123,97,255,.15)",border:`1px solid ${act===SETUP_GUIDE.length-1?"rgba(255,255,255,.1)":"rgba(123,97,255,.3)"}`,borderRadius:10,padding:"10px 20px",color:act===SETUP_GUIDE.length-1?"#3B3F46":"#fff",fontFamily:"'Outfit',sans-serif",fontWeight:600,fontSize:".85rem",cursor:act===SETUP_GUIDE.length-1?"default":"pointer",transition:"all .2s"}}>Next →</button>
+
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 32, paddingTop: 24, borderTop: "1px solid rgba(255,255,255,.06)", flexWrap: "wrap", gap: 12 }}>
+            <button type="button" onClick={() => setAct(Math.max(0, act - 1))} disabled={act === 0} style={{ background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.1)", borderRadius: 10, padding: "10px 20px", color: act === 0 ? "#3B3F46" : "#B0B5BE", fontFamily: "'Outfit',sans-serif", fontWeight: 600, fontSize: ".85rem", cursor: act === 0 ? "default" : "pointer", transition: "all .2s" }}>
+              ← Previous
+            </button>
+            <a
+              href={SETUP_DOC_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                background: "rgba(123,97,255,.12)",
+                border: "1px solid rgba(123,97,255,.3)",
+                color: "#B8A9FF",
+                padding: "10px 24px",
+                borderRadius: 50,
+                textDecoration: "none",
+                fontWeight: 700,
+                fontSize: ".85rem",
+                fontFamily: "'Outfit',sans-serif",
+                transition: "all .3s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "rgba(123,97,255,.22)";
+                e.currentTarget.style.color = "#fff";
+                e.currentTarget.style.transform = "translateY(-2px)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "rgba(123,97,255,.12)";
+                e.currentTarget.style.color = "#B8A9FF";
+                e.currentTarget.style.transform = "translateY(0)";
+              }}
+            >
+              <ExternalLinkIcon size={16} />
+              Read Full Setup Guide
+            </a>
+            <button type="button" onClick={() => setAct(Math.min(SETUP_GUIDE.length - 1, act + 1))} disabled={act === SETUP_GUIDE.length - 1} style={{ background: act === SETUP_GUIDE.length - 1 ? "rgba(255,255,255,.05)" : "rgba(123,97,255,.15)", border: `1px solid ${act === SETUP_GUIDE.length - 1 ? "rgba(255,255,255,.1)" : "rgba(123,97,255,.3)"}`, borderRadius: 10, padding: "10px 20px", color: act === SETUP_GUIDE.length - 1 ? "#3B3F46" : "#fff", fontFamily: "'Outfit',sans-serif", fontWeight: 600, fontSize: ".85rem", cursor: act === SETUP_GUIDE.length - 1 ? "default" : "pointer", transition: "all .2s" }}>
+              Next →
+            </button>
           </div>
+        </div>
+
+        <div
+          style={{
+            marginTop: 32,
+            textAlign: "center",
+            background: "linear-gradient(135deg,rgba(123,97,255,.06),rgba(0,229,160,.04))",
+            border: "1px solid rgba(123,97,255,.15)",
+            borderRadius: 16,
+            padding: "24px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 16,
+            flexWrap: "wrap",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <span style={{ fontSize: "1.3rem" }}>📄</span>
+            <span style={{ color: "#C5C9D2", fontSize: ".95rem", fontFamily: "'DM Sans',sans-serif" }}>Want the complete step-by-step document?</span>
+          </div>
+          <a
+            href={SETUP_DOC_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              background: "#7B61FF",
+              color: "#fff",
+              padding: "12px 28px",
+              borderRadius: 50,
+              textDecoration: "none",
+              fontWeight: 700,
+              fontSize: ".9rem",
+              fontFamily: "'Outfit',sans-serif",
+              transition: "all .3s",
+              boxShadow: "0 0 24px rgba(123,97,255,.3)",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-2px)";
+              e.currentTarget.style.boxShadow = "0 0 40px rgba(123,97,255,.5)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "0 0 24px rgba(123,97,255,.3)";
+            }}
+          >
+            <ExternalLinkIcon size={16} stroke="#fff" />
+            Open Full Guide →
+          </a>
         </div>
       </div>
     </section>
@@ -789,6 +1088,187 @@ function TestimonialsSection() {
   );
 }
 
+function CommunityPerkCard({ perk, index }) {
+  const p = perk;
+  const [pRef, pIv] = useInView(0.1);
+  return (
+    <div
+      ref={pRef}
+      style={{
+        display: "flex",
+        gap: 14,
+        alignItems: "flex-start",
+        background: "rgba(255,255,255,0.02)",
+        border: "1px solid rgba(255,255,255,0.05)",
+        borderRadius: 14,
+        padding: "20px",
+        opacity: pIv ? 1 : 0,
+        transform: pIv ? "translateY(0)" : "translateY(25px)",
+        transition: `all 0.5s cubic-bezier(.22,1,.36,1) ${index * 0.06}s`,
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = "rgba(37,211,102,0.04)";
+        e.currentTarget.style.borderColor = "rgba(37,211,102,0.15)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = "rgba(255,255,255,0.02)";
+        e.currentTarget.style.borderColor = "rgba(255,255,255,0.05)";
+      }}
+    >
+      <div
+        style={{
+          width: 44,
+          height: 44,
+          borderRadius: 12,
+          flexShrink: 0,
+          background: "rgba(37,211,102,0.08)",
+          border: "1px solid rgba(37,211,102,0.15)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: "1.3rem",
+        }}
+      >
+        {p.icon}
+      </div>
+      <div>
+        <h4 style={{ color: "#fff", fontSize: ".95rem", fontWeight: 700, fontFamily: "'Outfit',sans-serif", margin: "0 0 4px" }}>{p.title}</h4>
+        <p style={{ color: "#6B7280", fontSize: ".85rem", margin: 0, fontFamily: "'DM Sans',sans-serif", lineHeight: 1.5 }}>{p.desc}</p>
+      </div>
+    </div>
+  );
+}
+
+function CommunitySection() {
+  const [ref, iv] = useInView(0.1);
+
+  return (
+    <section id="community" style={{ padding: "100px 24px", position: "relative" }}>
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, transparent, rgba(37,211,102,0.03), transparent)" }} />
+      <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative" }}>
+        <div
+          ref={ref}
+          style={{
+            textAlign: "center",
+            marginBottom: 56,
+            opacity: iv ? 1 : 0,
+            transform: iv ? "translateY(0)" : "translateY(30px)",
+            transition: "all 0.7s cubic-bezier(.22,1,.36,1)",
+          }}
+        >
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              background: "rgba(37,211,102,0.1)",
+              border: "1px solid rgba(37,211,102,0.25)",
+              borderRadius: 50,
+              padding: "8px 20px",
+              marginBottom: 20,
+            }}
+          >
+            <span style={{ animation: "pulse 1.5s infinite", fontSize: "1rem" }}>🔴</span>
+            <span style={{ color: "#25D366", fontSize: ".82rem", fontWeight: 700, fontFamily: "'Outfit',sans-serif", letterSpacing: ".06em" }}>LIVE COMMUNITY — 100% FREE</span>
+          </div>
+          <h2 style={{ fontSize: "clamp(2rem,4vw,3.2rem)", fontWeight: 900, color: "#fff", fontFamily: "'Outfit',sans-serif", margin: "0 0 16px", letterSpacing: "-0.02em" }}>Join Our WhatsApp Community</h2>
+          <p style={{ color: "#8A8F98", fontSize: "1.1rem", maxWidth: 600, margin: "0 auto", fontFamily: "'DM Sans',sans-serif", lineHeight: 1.7 }}>
+            Stay ahead of the competition. We post <span style={{ color: "#25D366", fontWeight: 700 }}>latest job openings</span> daily from top companies across the tech industry. Don&apos;t miss out on your next opportunity.
+          </p>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16, marginBottom: 48 }}>
+          {COMMUNITY_PERKS.map((p, i) => (
+            <CommunityPerkCard key={p.title} perk={p} index={i} />
+          ))}
+        </div>
+
+        <div
+          style={{
+            background: "linear-gradient(135deg, rgba(37,211,102,0.1), rgba(37,211,102,0.04))",
+            border: "2px solid rgba(37,211,102,0.3)",
+            borderRadius: 24,
+            padding: "clamp(36px,5vw,56px)",
+            textAlign: "center",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              opacity: 0.4,
+              backgroundImage:
+                "radial-gradient(circle at 20% 30%, rgba(37,211,102,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(37,211,102,0.06) 0%, transparent 50%)",
+            }}
+          />
+
+          <div style={{ position: "relative", zIndex: 1 }}>
+            <div
+              style={{
+                width: 80,
+                height: 80,
+                borderRadius: 24,
+                margin: "0 auto 24px",
+                background: "rgba(37,211,102,0.15)",
+                border: "2px solid rgba(37,211,102,0.3)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                animation: "pulse 2s infinite",
+              }}
+            >
+              <WA size={40} fill="#25D366" />
+            </div>
+
+            <h3 style={{ color: "#fff", fontSize: "clamp(1.4rem,3vw,2rem)", fontWeight: 900, fontFamily: "'Outfit',sans-serif", margin: "0 0 12px" }}>Never Miss a Job Opportunity Again</h3>
+            <p style={{ color: "#8A8F98", fontSize: "1rem", maxWidth: 500, margin: "0 auto 8px", fontFamily: "'DM Sans',sans-serif", lineHeight: 1.6 }}>
+              Our community members get access to job postings before they hit public job boards.
+            </p>
+            <p style={{ color: "#25D366", fontSize: ".9rem", fontWeight: 600, fontFamily: "'Outfit',sans-serif", margin: "0 0 32px" }}>✅ 100% Free &nbsp;&nbsp; ✅ No Spam &nbsp;&nbsp; ✅ Daily Updates</p>
+
+            <a
+              href={WHATSAPP_COMMUNITY}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 12,
+                background: "#25D366",
+                color: "#fff",
+                padding: "18px 48px",
+                borderRadius: 60,
+                textDecoration: "none",
+                fontWeight: 800,
+                fontSize: "1.15rem",
+                fontFamily: "'Outfit',sans-serif",
+                boxShadow: "0 0 50px rgba(37,211,102,0.4), 0 0 100px rgba(37,211,102,0.15)",
+                transition: "all 0.3s cubic-bezier(.22,1,.36,1)",
+                letterSpacing: ".01em",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-3px) scale(1.03)";
+                e.currentTarget.style.boxShadow = "0 0 70px rgba(37,211,102,0.5), 0 0 120px rgba(37,211,102,0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0) scale(1)";
+                e.currentTarget.style.boxShadow = "0 0 50px rgba(37,211,102,0.4), 0 0 100px rgba(37,211,102,0.15)";
+              }}
+            >
+              <WA size={24} fill="#fff" />
+              Join WhatsApp Community →
+            </a>
+
+            <p style={{ color: "#4B5563", fontSize: ".8rem", marginTop: 16, fontFamily: "'DM Sans',sans-serif" }}>👥 Join 2000+ professionals already in the community</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ═══════════════════════════════════════════
    CONTACT
    ═══════════════════════════════════════════ */
@@ -848,7 +1328,7 @@ function Footer() {
         <div style={{display:"flex",gap:48,flexWrap:"wrap"}}>
           <div>
             <h4 style={{color:"#fff",fontSize:".85rem",fontWeight:700,fontFamily:"'Outfit',sans-serif",marginBottom:16,letterSpacing:".05em",textTransform:"uppercase"}}>Quick Links</h4>
-            {[{l:"Services",h:"#services"},{l:"Our Team",h:"#team"},{l:"Setup Guide",h:"#setup-guide"},{l:"Pricing",h:"#pricing"},{l:"Testimonials",h:"#testimonials"}].map(x=>(
+            {[{l:"Services",h:"#services"},{l:"Our Team",h:"#team"},{l:"Setup Guide",h:"#setup-guide"},{l:"Pricing",h:"#pricing"},{l:"Testimonials",h:"#testimonials"},{l:"Job Updates",h:"#community"}].map(x=>(
               <a key={x.l} href={x.h} onClick={e=>scrollTo(e,x.h)} style={{display:"block",color:"#6B7280",textDecoration:"none",fontSize:".9rem",fontFamily:"'DM Sans',sans-serif",padding:"4px 0",transition:"color .2s",cursor:"pointer"}}
                 onMouseEnter={e=>e.target.style.color="#B0B5BE"} onMouseLeave={e=>e.target.style.color="#6B7280"}>{x.l}</a>
             ))}
@@ -858,6 +1338,7 @@ function Footer() {
             <a href={`mailto:${EMAIL}`} style={{display:"block",color:"#6B7280",textDecoration:"none",fontSize:".85rem",fontFamily:"'DM Sans',sans-serif",padding:"4px 0"}}>{EMAIL}</a>
             <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" style={{display:"block",color:"#6B7280",textDecoration:"none",fontSize:".9rem",fontFamily:"'DM Sans',sans-serif",padding:"4px 0"}}>+91 96492 24523</a>
             <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" style={{display:"block",color:"#25D366",textDecoration:"none",fontSize:".9rem",fontFamily:"'DM Sans',sans-serif",padding:"4px 0",fontWeight:600}}>💬 WhatsApp Chat</a>
+            <a href={WHATSAPP_COMMUNITY} target="_blank" rel="noopener noreferrer" style={{display:"block",color:"#25D366",textDecoration:"none",fontSize:".9rem",fontFamily:"'DM Sans',sans-serif",padding:"4px 0",fontWeight:600}}>🔥 Job Updates Community</a>
           </div>
         </div>
       </div>
@@ -875,12 +1356,14 @@ export default function App() {
     <div style={{background:"#08090E",minHeight:"100vh",color:"#fff",overflow:"hidden"}}>
       <Navbar/>
       <HeroSection/>
+      <CommunityBanner/>
       <ServicesSection/>
       <TeamSection/>
       <SetupGuideSection/>
       <ProcessSection/>
       <PricingSection/>
       <TestimonialsSection/>
+      <CommunitySection/>
       <ContactSection/>
       <Footer/>
       <WhatsAppFloat/>

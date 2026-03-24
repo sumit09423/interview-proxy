@@ -70,60 +70,52 @@ export const SERVICES = [
   },
 ];
 
+export const SETUP_DOC_LINK =
+  "https://docs.google.com/document/d/1g0kqkE27k47tuczT_QY4uYWv26w-EO9G9SjT7drkYXY/edit?pli=1&tab=t.0";
+
 export const SETUP_GUIDE = [
   {
     step: "01",
-    title: "System Requirements",
-    icon: "💻",
+    title: "System & Audio Setup",
+    icon: "🖥️",
     items: [
-      "A stable internet connection (minimum 10 Mbps upload/download)",
-      "A laptop or desktop with a working webcam and microphone",
-      "Google Chrome or Brave browser (latest version)",
-      "A quiet, well-lit room with a clean background",
+      "Chrome Remote Desktop will be used for remote access. Make sure it's properly installed and configured before the interview.",
+      "Otter.ai will be used for real-time voice-to-text assistance and prompt reading.",
+      "Use simple wired headphones (non-Bluetooth preferred) — they have zero noise cancellation and provide a more natural sound environment.",
+      "Avoid using AirPods or noise-cancelling headphones, as they may block prompt audio or interfere with Otter's recognition.",
+      "Verify headphone settings — ensure noise cancellation or spatial audio is turned off.",
     ],
   },
   {
     step: "02",
-    title: "Software Setup",
-    icon: "⚙️",
+    title: "Voice & Prompt Coordination",
+    icon: "🎙️",
     items: [
-      "Install AnyDesk or TeamViewer for secure remote screen-sharing",
-      "Install a secondary audio routing tool (VB-Cable / Voicemeeter)",
-      "Set up a secondary device (phone or tablet) as a backup communication channel",
-      "Test your audio/video setup 30 minutes before the interview",
+      "We'll connect on Google Meet for voice coordination and prompt delivery.",
+      "You'll hear the expert's voice through your headphones and communicate directly with the interviewer.",
+      "Keep the Meet tab minimized or muted on the laptop to avoid echo, but keep the microphone active for communication.",
     ],
   },
   {
     step: "03",
-    title: "Before the Interview",
-    icon: "📋",
+    title: "Using Otter for Prompts",
+    icon: "🧠",
     items: [
-      "Share the interview invite link, job description, and your resume with us at least 24 hours in advance",
-      "Join a 15-minute prep call with your assigned proxy expert",
-      "Confirm the interview platform (Zoom, Google Meet, Teams, HackerRank, CodeSignal, etc.)",
-      "Do a full dry run to test audio routing and screen sharing",
+      "Initially, open Otter.ai on your laptop alongside the interview window. This allows you to see real-time prompts and guidance during the conversation.",
+      "If the interviewer asks you to share your full screen, switch to using Otter on your phone instead.",
+      "Open the same Otter session on your mobile browser or app.",
+      "Place your phone in front of your laptop, just below the webcam, so you can read prompts naturally.",
     ],
   },
   {
     step: "04",
-    title: "During the Interview",
-    icon: "🎯",
-    items: [
-      "Stay calm — your proxy expert handles all technical and behavioral questions",
-      "Keep your secondary device connected for real-time coordination",
-      "Do not interrupt or type during the session unless instructed",
-      "Our expert manages screen sharing, coding, and live communication seamlessly",
-    ],
-  },
-  {
-    step: "05",
-    title: "After the Interview",
+    title: "Additional Recommendations",
     icon: "✅",
     items: [
-      "Receive a detailed debrief with all questions asked and answers given",
-      "Get a confidence score and feedback on interview performance",
-      "Discuss next steps — follow-up rounds, offer negotiation, or job support",
-      "All session data is handled with strict confidentiality",
+      "Test all tools (Chrome Remote Desktop, Meet, and Otter) at least 30 minutes before the interview.",
+      "Close all unnecessary tabs and background apps to reduce lag.",
+      "Have a backup internet connection (e.g., mobile hotspot) ready.",
+      "Keep a bottle of water nearby and stay calm — the expert handles the rest behind the scenes.",
     ],
   },
 ];
@@ -172,4 +164,14 @@ export const PROCESS_STEPS = [
 ];
 
 export const WHATSAPP_LINK = `https://wa.me/919649224523?text=${encodeURIComponent("Hi, I'm interested in your services. Please share more details.")}`;
+export const WHATSAPP_COMMUNITY = "https://chat.whatsapp.com/EUnxXypvR6tIfAVSEobufs";
 export const EMAIL = "proxyinterview980@gmail.com";
+
+export const COMMUNITY_PERKS = [
+  { icon: "💼", title: "Daily Job Postings", desc: "Fresh openings from top tech companies — FAANG, startups, and more" },
+  { icon: "🚨", title: "Urgent Hiring Alerts", desc: "Be the first to know about hot roles with quick turnaround" },
+  { icon: "💰", title: "Salary Insights", desc: "Real compensation data and negotiation tips from insiders" },
+  { icon: "🤝", title: "Direct Referrals", desc: "Get referred by our network of 50+ industry professionals" },
+  { icon: "📋", title: "Resume & Profile Reviews", desc: "Weekly tips on optimizing your resume and LinkedIn profile" },
+  { icon: "🔔", title: "Interview Prep Alerts", desc: "Company-specific interview experiences shared regularly" },
+];
