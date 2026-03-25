@@ -120,21 +120,6 @@ export const SETUP_GUIDE = [
   },
 ];
 
-export const TEAM_SDE = [
-  { name: "Shubham Verma", role: "Software Engineer", company: "Microsoft", isLead: true, avatar: "hacker" },
-  { name: "Sid", role: "Software Engineer", company: "Anonymous Company", avatar: "default" },
-  { name: "Ravi", role: "Software Engineer", company: "Amazon", avatar: "default" },
-  { name: "Ronnie", role: "Software Engineer", company: "Anonymous Company", avatar: "default" },
-  { name: "Dinesh", role: "Software Engineer", company: "Anonymous Company", avatar: "default" },
-];
-
-export const TEAM_DE = [
-  { name: "Harsh", role: "Data Engineer", company: "Goldman Sachs", avatar: "default" },
-  { name: "Sunny", role: "Data Engineer", company: "Anonymous Company", avatar: "default" },
-];
-
-export const TEAM_DEVOPS = [{ name: "Raj", role: "DevOps Engineer", company: "Zepto", avatar: "default" }];
-
 export const TESTIMONIALS = [
   {
     name: "Rajesh K.",
@@ -174,4 +159,39 @@ export const COMMUNITY_PERKS = [
   { icon: "🤝", title: "Direct Referrals", desc: "Get referred by our network of 50+ industry professionals" },
   { icon: "📋", title: "Resume & Profile Reviews", desc: "Weekly tips on optimizing your resume and LinkedIn profile" },
   { icon: "🔔", title: "Interview Prep Alerts", desc: "Company-specific interview experiences shared regularly" },
+];
+
+export const FAQ_DATA = [
+  {
+    q: "What is an interview proxy service?",
+    a: "An interview proxy service is where a qualified expert attends your technical or HR interview on your behalf. HireQuest's proxy experts cover 50+ technologies including Java, Python, React, AWS, and more — with a 98% success rate across FAANG and top-tier companies.",
+  },
+  {
+    q: "How much does an interview proxy cost?",
+    a: "HireQuest's interview proxy service costs $200 per session, covering complete interview rounds including technical and HR. Mock interviews are available at $100 per session, and job support is $600/month for 3 hours of daily expert assistance.",
+  },
+  {
+    q: "What technologies do your experts cover?",
+    a: "Our 35+ experts cover Java, Python, React, Angular, Node.js, AWS, Android, iOS, Flutter, .NET, Go, PHP, Selenium, Salesforce, SAP, Kubernetes, Docker, Terraform, Tableau, Power BI, and 30+ more technologies across SDE, frontend, backend, mobile, QA, DevOps, data engineering, AI/ML, and cybersecurity domains.",
+  },
+  {
+    q: "How does the interview proxy process work?",
+    a: "We use Chrome Remote Desktop for secure remote access and Otter.ai for real-time voice-to-text prompting. You connect with our expert via Google Meet, wear wired headphones, and the expert handles all technical and behavioral questions. Full setup details are shared 24 hours before the interview.",
+  },
+  {
+    q: "Is the service confidential?",
+    a: "Yes, 100% confidential. All session data, interview recordings, and communication are handled with strict privacy. We never share client information or interview details with any third party.",
+  },
+  {
+    q: "How do I book a session?",
+    a: "Simply reach out via WhatsApp at +91 96492 24523 or email proxyinterview980@gmail.com. We respond within 30 minutes and offer a free initial consultation to understand your requirements.",
+  },
+  {
+    q: "What is job support and how does it work?",
+    a: "Job support provides daily on-the-job expert assistance — 3 hours per day at $600/month. Our dedicated expert helps with code reviews, debugging, sprint deliverables, and technology ramp-up. If you need more hours, extra days are covered automatically.",
+  },
+  {
+    q: "Do you offer services for all interview platforms?",
+    a: "Yes. We support Zoom, Google Meet, Microsoft Teams, HackerRank, CodeSignal, CoderPad, LeetCode, and all major interview platforms. Our experts are experienced with both live coding rounds and take-home assessments.",
+  },
 ];

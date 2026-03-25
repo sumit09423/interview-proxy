@@ -2,19 +2,19 @@ import { useEffect, useState } from "react";
 import {
   COMMUNITY_PERKS,
   EMAIL,
+  FAQ_DATA,
   PROCESS_STEPS,
   SERVICES,
   SETUP_DOC_LINK,
   SETUP_GUIDE,
-  TEAM_DE,
-  TEAM_DEVOPS,
-  TEAM_SDE,
   TESTIMONIALS,
   WHATSAPP_COMMUNITY,
   WHATSAPP_LINK,
 } from "./data/siteContent.js";
+import { TEAM_CATEGORIES, TECH_COVERAGE_TAGS } from "./data/teamContent.js";
 import { useCounter } from "./hooks/useCounter.js";
 import { useInView } from "./hooks/useInView.js";
+import { useSEO } from "./seo/useSEO.js";
 
 /* ═══════════════════════════════════════════
    SMALL COMPONENTS
@@ -131,6 +131,7 @@ function Navbar() {
     { label:"Process", href:"#process" },
     { label:"Pricing", href:"#pricing" },
     { label:"Reviews", href:"#testimonials" },
+    { label:"FAQ", href:"#faq" },
     { label:"Job Updates", href:"#community" },
     { label:"Contact", href:"#contact" },
   ];
@@ -486,88 +487,11 @@ function TeamMemberCard({ member, index, categoryAccent }) {
   );
 }
 
-function TeamCategory({ cat, isLast }) {
-  const [cRef, cIv] = useInView(0.1);
-  return (
-    <div style={{ marginBottom: isLast ? 0 : 64 }}>
-      <div
-        ref={cRef}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 16,
-          marginBottom: 32,
-          opacity: cIv ? 1 : 0,
-          transform: cIv ? "translateY(0)" : "translateY(20px)",
-          transition: "all 0.6s cubic-bezier(.22,1,.36,1)",
-        }}
-      >
-        <div
-          style={{
-            width: 4,
-            height: 40,
-            borderRadius: 2,
-            background: `linear-gradient(180deg, ${cat.accent}, ${cat.accent}40)`,
-          }}
-        />
-        <div>
-          <h3
-            style={{
-              color: "#fff",
-              fontSize: "1.3rem",
-              fontWeight: 800,
-              fontFamily: "'Outfit',sans-serif",
-              margin: 0,
-              lineHeight: 1.2,
-            }}
-          >
-            {cat.title}
-          </h3>
-          <p
-            style={{
-              color: "#6B7280",
-              fontSize: ".85rem",
-              fontFamily: "'DM Sans',sans-serif",
-              margin: "2px 0 0",
-            }}
-          >
-            {cat.subtitle}
-          </p>
-        </div>
-        <div
-          style={{
-            flex: 1,
-            height: 1,
-            background: `linear-gradient(90deg, ${cat.accent}20, transparent)`,
-            marginLeft: 8,
-          }}
-        />
-      </div>
-
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: `repeat(auto-fill, minmax(${cat.members.length <= 2 ? "220px" : "195px"}, 1fr))`,
-          gap: 20,
-          maxWidth: cat.members.length <= 2 ? 560 : "none",
-        }}
-      >
-        {cat.members.map((m, mi) => (
-          <TeamMemberCard key={m.name} member={m} index={mi} categoryAccent={cat.accent} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
 function TeamSection() {
   const [ref, iv] = useInView(0.1);
-
-  const categories = [
-    { title: "Software Engineers", subtitle: "SDE / Full-Stack / Backend Experts", accent: "#00E5A0", members: TEAM_SDE },
-    { title: "Data Engineers", subtitle: "ETL / Big Data / Analytics Experts", accent: "#7B61FF", members: TEAM_DE },
-    { title: "DevOps Engineers", subtitle: "Cloud / CI-CD / Infrastructure Experts", accent: "#00B4D8", members: TEAM_DEVOPS },
-  ];
+  const [activeCat, setActiveCat] = useState(0);
+  const cat = TEAM_CATEGORIES[activeCat];
+  const totalExperts = TEAM_CATEGORIES.reduce((s, c) => s + c.members.length, 0);
 
   return (
     <section id="team" style={{ padding: "100px 24px", position: "relative" }}>
@@ -577,7 +501,7 @@ function TeamSection() {
       }} />
       <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative" }}>
         <div ref={ref} style={{
-          textAlign: "center", marginBottom: 72,
+          textAlign: "center", marginBottom: 48,
           opacity: iv ? 1 : 0, transform: iv ? "translateY(0)" : "translateY(30px)",
           transition: "all 0.7s cubic-bezier(.22,1,.36,1)",
         }}>
@@ -585,20 +509,109 @@ function TeamSection() {
             MEET THE EXPERTS
           </span>
           <h2 style={{ fontSize: "clamp(2rem,4vw,3.2rem)", fontWeight: 900, color: "#fff", fontFamily: "'Outfit',sans-serif", margin: "12px 0 16px", letterSpacing: "-0.02em" }}>
-            Our Team
+            Our Team — {totalExperts}+ Experts
           </h2>
-          <p style={{ color: "#6B7280", fontSize: "1.1rem", maxWidth: 580, margin: "0 auto", fontFamily: "'DM Sans',sans-serif", lineHeight: 1.6 }}>
-            Industry veterans from top tech companies who've been in the trenches — now they're in your corner.
+          <p style={{ color: "#6B7280", fontSize: "1.1rem", maxWidth: 620, margin: "0 auto", fontFamily: "'DM Sans',sans-serif", lineHeight: 1.6 }}>
+            Industry veterans across <span style={{ color: "#fff", fontWeight: 600 }}>10+ technology domains</span> from top companies — ready to back you in interviews and on the job.
           </p>
         </div>
 
-        {categories.map((cat, ci) => (
-          <TeamCategory key={cat.title} cat={cat} isLast={ci === categories.length - 1} />
-        ))}
-
-        {/* Join the team CTA */}
         <div style={{
-          marginTop: 64, textAlign: "center",
+          display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "center",
+          marginBottom: 40, padding: "0 12px",
+        }}>
+          {TEAM_CATEGORIES.map((c, i) => (
+            <button
+              key={c.tag}
+              type="button"
+              onClick={() => setActiveCat(i)}
+              style={{
+                background: activeCat === i ? `${c.accent}20` : "rgba(255,255,255,0.03)",
+                border: `1px solid ${activeCat === i ? c.accent + "50" : "rgba(255,255,255,0.06)"}`,
+                borderRadius: 10, padding: "9px 16px", cursor: "pointer",
+                color: activeCat === i ? "#fff" : "#6B7280",
+                fontFamily: "'Outfit',sans-serif", fontWeight: 600, fontSize: ".82rem",
+                transition: "all 0.3s", whiteSpace: "nowrap",
+                display: "flex", alignItems: "center", gap: 6,
+              }}
+            >
+              {c.tag}
+              <span style={{
+                background: activeCat === i ? c.accent : "rgba(255,255,255,0.1)",
+                color: activeCat === i ? "#08090E" : "#6B7280",
+                fontSize: ".65rem", fontWeight: 800, borderRadius: 6,
+                padding: "2px 6px", minWidth: 18, textAlign: "center",
+              }}>{c.members.length}</span>
+            </button>
+          ))}
+        </div>
+
+        <div>
+          <div style={{
+            display: "flex", alignItems: "center", gap: 16, marginBottom: 28,
+          }}>
+            <div style={{
+              width: 4, height: 40, borderRadius: 2,
+              background: `linear-gradient(180deg, ${cat.accent}, ${cat.accent}40)`,
+            }} />
+            <div>
+              <h3 style={{
+                color: "#fff", fontSize: "1.3rem", fontWeight: 800,
+                fontFamily: "'Outfit',sans-serif", margin: 0, lineHeight: 1.2,
+              }}>{cat.title}</h3>
+              <p style={{
+                color: "#6B7280", fontSize: ".85rem",
+                fontFamily: "'DM Sans',sans-serif", margin: "2px 0 0",
+              }}>{cat.subtitle}</p>
+            </div>
+            <div style={{
+              flex: 1, height: 1,
+              background: `linear-gradient(90deg, ${cat.accent}20, transparent)`,
+              marginLeft: 8,
+            }} />
+            <div style={{
+              background: `${cat.accent}15`, border: `1px solid ${cat.accent}25`,
+              borderRadius: 8, padding: "6px 14px",
+              color: cat.accent, fontSize: ".78rem", fontWeight: 700,
+              fontFamily: "'Outfit',sans-serif",
+            }}>{cat.members.length} Expert{cat.members.length > 1 ? "s" : ""}</div>
+          </div>
+
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: `repeat(auto-fill, minmax(${cat.members.length <= 2 ? "220px" : "195px"}, 1fr))`,
+            gap: 20,
+            maxWidth: cat.members.length <= 2 ? 560 : "none",
+          }}>
+            {cat.members.map((m, mi) => (
+              <TeamMemberCard key={m.name + cat.tag} member={m} index={mi} categoryAccent={cat.accent} />
+            ))}
+          </div>
+        </div>
+
+        <div style={{
+          marginTop: 48, padding: "24px 28px",
+          background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)",
+          borderRadius: 16, display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center",
+        }}>
+          {TECH_COVERAGE_TAGS.map((t) => (
+            <span key={t} style={{
+              background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)",
+              borderRadius: 8, padding: "5px 12px",
+              color: "#6B7280", fontSize: ".75rem", fontWeight: 600,
+              fontFamily: "'Outfit',sans-serif",
+            }}>{t}</span>
+          ))}
+          <span style={{
+            background: "rgba(0,229,160,0.08)", border: "1px solid rgba(0,229,160,0.2)",
+            borderRadius: 8, padding: "5px 12px",
+            color: "#00E5A0", fontSize: ".75rem", fontWeight: 700,
+            fontFamily: "'Outfit',sans-serif",
+          }}>+ 30 more</span>
+        </div>
+
+        <div style={{
+          marginTop: 32, textAlign: "center",
           background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)",
           borderRadius: 20, padding: "36px 24px",
         }}>
@@ -606,7 +619,7 @@ function TeamSection() {
             Are you an expert in your domain?
           </p>
           <h4 style={{ color: "#fff", fontSize: "1.2rem", fontWeight: 700, fontFamily: "'Outfit',sans-serif", margin: "0 0 20px" }}>
-            Join Our Growing Team of 50+ Experts
+            Join Our Growing Team of {totalExperts}+ Experts
           </h4>
           <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" style={{
             display: "inline-flex", alignItems: "center", gap: 8,
@@ -1269,6 +1282,106 @@ function CommunitySection() {
   );
 }
 
+function FAQSection() {
+  const [ref, iv] = useInView(0.1);
+  const [openIdx, setOpenIdx] = useState(null);
+
+  return (
+    <section id="faq" style={{ padding: "100px 24px", position: "relative" }}>
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, transparent, rgba(255,107,53,0.02), transparent)" }} />
+      <div style={{ maxWidth: 800, margin: "0 auto", position: "relative" }}>
+        <div ref={ref} style={{
+          textAlign: "center", marginBottom: 56,
+          opacity: iv ? 1 : 0, transform: iv ? "translateY(0)" : "translateY(30px)",
+          transition: "all 0.7s cubic-bezier(.22,1,.36,1)",
+        }}>
+          <span style={{ color: "#FF6B35", fontSize: ".85rem", fontWeight: 700, letterSpacing: ".12em", textTransform: "uppercase", fontFamily: "'Outfit',sans-serif" }}>FAQ</span>
+          <h2 style={{ fontSize: "clamp(2rem,4vw,3.2rem)", fontWeight: 900, color: "#fff", fontFamily: "'Outfit',sans-serif", margin: "12px 0 16px", letterSpacing: "-0.02em" }}>Frequently Asked Questions</h2>
+          <p style={{ color: "#6B7280", fontSize: "1.05rem", maxWidth: 550, margin: "0 auto", fontFamily: "'DM Sans',sans-serif", lineHeight: 1.6 }}>
+            Everything you need to know about our services.
+          </p>
+        </div>
+
+        <div style={{ display: "grid", gap: 12 }}>
+          {FAQ_DATA.map((faq, i) => {
+            const isOpen = openIdx === i;
+            return (
+              <div
+                key={faq.q}
+                role="button"
+                tabIndex={0}
+                onClick={() => setOpenIdx(isOpen ? null : i)}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setOpenIdx(isOpen ? null : i); } }}
+                style={{
+                  background: isOpen ? "rgba(255,107,53,0.04)" : "rgba(255,255,255,0.02)",
+                  border: `1px solid ${isOpen ? "rgba(255,107,53,0.2)" : "rgba(255,255,255,0.06)"}`,
+                  borderRadius: 16, padding: "0", overflow: "hidden",
+                  cursor: "pointer", transition: "all 0.3s",
+                }}
+              >
+                <div style={{
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  padding: "20px 24px", gap: 16,
+                }}>
+                  <h3 style={{
+                    color: isOpen ? "#FF6B35" : "#fff", fontSize: "1rem", fontWeight: 700,
+                    fontFamily: "'Outfit',sans-serif", margin: 0, lineHeight: 1.4,
+                    transition: "color 0.3s", textAlign: "left",
+                  }}>{faq.q}</h3>
+                  <div style={{
+                    width: 28, height: 28, borderRadius: 8, flexShrink: 0,
+                    background: isOpen ? "rgba(255,107,53,0.15)" : "rgba(255,255,255,0.05)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    color: isOpen ? "#FF6B35" : "#6B7280",
+                    fontSize: "1.2rem", fontWeight: 300,
+                    transition: "all 0.3s",
+                    transform: isOpen ? "rotate(45deg)" : "rotate(0)",
+                  }}>+</div>
+                </div>
+                <div style={{
+                  maxHeight: isOpen ? 400 : 0,
+                  opacity: isOpen ? 1 : 0,
+                  overflow: "hidden",
+                  transition: "all 0.4s cubic-bezier(.22,1,.36,1)",
+                }}>
+                  <p style={{
+                    color: "#8A8F98", fontSize: ".95rem", lineHeight: 1.7,
+                    fontFamily: "'DM Sans',sans-serif", margin: 0,
+                    padding: "0 24px 20px",
+                  }}>{faq.a}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div style={{
+          marginTop: 40, textAlign: "center",
+          background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)",
+          borderRadius: 16, padding: "28px 24px",
+        }}>
+          <p style={{ color: "#8A8F98", fontSize: ".95rem", fontFamily: "'DM Sans',sans-serif", margin: "0 0 16px" }}>
+            Still have questions? We&apos;re here to help.
+          </p>
+          <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" style={{
+            display: "inline-flex", alignItems: "center", gap: 8,
+            background: "linear-gradient(135deg,#00E5A0,#00C48C)", color: "#08090E",
+            padding: "12px 28px", borderRadius: 50,
+            textDecoration: "none", fontWeight: 700, fontSize: ".9rem",
+            fontFamily: "'Outfit',sans-serif", transition: "all 0.3s",
+            boxShadow: "0 0 24px rgba(0,229,160,.3)",
+          }}
+            onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; }}
+          >
+            <WA size={18} fill="#08090E" /> Ask Us on WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ═══════════════════════════════════════════
    CONTACT
    ═══════════════════════════════════════════ */
@@ -1328,7 +1441,7 @@ function Footer() {
         <div style={{display:"flex",gap:48,flexWrap:"wrap"}}>
           <div>
             <h4 style={{color:"#fff",fontSize:".85rem",fontWeight:700,fontFamily:"'Outfit',sans-serif",marginBottom:16,letterSpacing:".05em",textTransform:"uppercase"}}>Quick Links</h4>
-            {[{l:"Services",h:"#services"},{l:"Our Team",h:"#team"},{l:"Setup Guide",h:"#setup-guide"},{l:"Pricing",h:"#pricing"},{l:"Testimonials",h:"#testimonials"},{l:"Job Updates",h:"#community"}].map(x=>(
+            {[{l:"Services",h:"#services"},{l:"Our Team",h:"#team"},{l:"Setup Guide",h:"#setup-guide"},{l:"Pricing",h:"#pricing"},{l:"Testimonials",h:"#testimonials"},{l:"FAQ",h:"#faq"},{l:"Job Updates",h:"#community"}].map(x=>(
               <a key={x.l} href={x.h} onClick={e=>scrollTo(e,x.h)} style={{display:"block",color:"#6B7280",textDecoration:"none",fontSize:".9rem",fontFamily:"'DM Sans',sans-serif",padding:"4px 0",transition:"color .2s",cursor:"pointer"}}
                 onMouseEnter={e=>e.target.style.color="#B0B5BE"} onMouseLeave={e=>e.target.style.color="#6B7280"}>{x.l}</a>
             ))}
@@ -1352,6 +1465,7 @@ function Footer() {
    ═══════════════════════════════════════════ */
 
 export default function App() {
+  useSEO();
   return (
     <div style={{background:"#08090E",minHeight:"100vh",color:"#fff",overflow:"hidden"}}>
       <Navbar/>
@@ -1364,6 +1478,7 @@ export default function App() {
       <PricingSection/>
       <TestimonialsSection/>
       <CommunitySection/>
+      <FAQSection/>
       <ContactSection/>
       <Footer/>
       <WhatsAppFloat/>

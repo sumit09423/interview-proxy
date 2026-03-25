@@ -1,0 +1,29 @@
+{
+  "name": "HireQuest — Interview Proxy & Career Services",
+  "short_name": "HireQuest",
+  "description": "Professional interview proxy, mock interviews, job support & background verification. 50+ experts, 98% success rate.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#08090E",
+  "theme_color": "#00E5A0",
+  "orientation": "portrait-primary",
+  "categories": ["business", "education"],
+  "icons": [
+    {
+      "src": "/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
