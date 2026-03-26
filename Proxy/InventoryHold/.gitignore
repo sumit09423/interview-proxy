@@ -1,0 +1,49 @@
+bin/
+obj/
+*.user
+*.suo
+.vs/
+.idea/
+node_modules/
+frontend/dist/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+*.swp
+*.swo
+
+# .NET build/test artifacts
+TestResults/
+*.coverage
+*.coveragexml
+*.trx
+
+# Frontend caches/build outputs
+frontend/node_modules/
+frontend/.vite/
+frontend/.cache/
+frontend/coverage/
+
+# Runtime/temp files
+*.pid
+*.tmp
+*.temp
+
+# Local environment/secrets
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Local infrastructure/data
+docker-data/
+mongodb-data/
+redis-data/
+
+# Generated web assets (when copied from frontend build)
+src/InventoryHold.WebApi/wwwroot/

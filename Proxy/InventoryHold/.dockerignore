@@ -1,0 +1,7 @@
+**/bin
+**/obj
+**/node_modules
+**/.git
+frontend/dist
+# UI is baked in from the frontend-build stage; ignore any local wwwroot copy
+src/InventoryHold.WebApi/wwwroot

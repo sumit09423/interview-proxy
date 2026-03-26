@@ -1,0 +1,30 @@
+[
+  {
+    "question": "What is LangGraph?",
+    "answer": "A framework for building stateful multi-step LLM workflows."
+  },
+  {
+    "question": "What is LangSmith used for?",
+    "answer": "Debugging, monitoring, and evaluating LLM applications."
+  },
+  {
+    "question": "Who created LangChain?",
+    "answer": "Harrison Chase."
+  },
+  {
+    "question": "What does LangGraph extend?",
+    "answer": "LangChain, by adding graph-based workflow orchestration."
+  },
+  {
+    "question": "What is FAISS used for in RAG?",
+    "answer": "Efficient similarity search and clustering of dense vectors for retrieval."
+  },
+  {
+    "question": "What is RAG?",
+    "answer": "Retrieval-Augmented Generation - combining retrieval of relevant documents with generative AI."
+  },
+  {
+    "question": "What are embeddings?",
+    "answer": "Vector representations of text that capture semantic meaning for similarity search."
+  }
+]

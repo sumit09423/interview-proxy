@@ -1,0 +1,45 @@
+LangGraph is a framework designed for building stateful multi-step LLM workflows and agents.
+
+LangSmith is a developer platform for debugging, testing, monitoring, and evaluating LLM applications.
+
+LangChain is an open-source framework that simplifies building applications using large language models. It was created by Harrison Chase.
+
+LangGraph extends LangChain by adding graph-based workflow orchestration, allowing you to build agents with cycles and conditional logic.
+
+LangSmith provides experiment tracking, dataset management, and evaluation tools to improve your LLM applications over time.
+
+FAISS is a library for efficient similarity search and clustering of dense vectors, commonly used for vector store retrieval in RAG systems.
+
+Retrieval-Augmented Generation (RAG) combines retrieval of relevant documents with generative AI to produce accurate, grounded answers.
+
+Embeddings are vector representations of text that capture semantic meaning, enabling similarity search across documents.
+
+--- DEVELOPER Q&A (check first for code/logical questions) ---
+
+How to set up the project: Create venv with python -m venv .venv, activate it, run pip install -r requirements.txt, cp .env.example .env, then add GROQ_API_KEY (testing) or OPENAI_API_KEY (production).
+
+How to run the agent: python main.py "Your question" or python main.py for interactive mode.
+
+How to run evaluation: python evaluation/run_eval.py for local eval (no LangSmith). python evaluation/run_eval_ui.py to upload to LangSmith (needs LANGCHAIN_API_KEY).
+
+RAG agent flow: START → retrieve → generate → final → END. Retrieve fetches chunks from FAISS, generate uses LLM with context, final returns state.
+
+Where is the graph defined: app/graph.py. State schema in app/state.py.
+
+How retrieval works: retrieve_node in app/nodes.py calls vectorstore.similarity_search(question, k=3) for top 3 chunks.
+
+Knowledge base location: data/knowledge_base.txt. FAISS index in data/faiss_index/ (OpenAI) or data/faiss_index_hf/ (Groq).
+
+Chunk size: 500 chars, 50 overlap. Defined in app/vectorstore.py chunk_text().
+
+Why LangGraph: Graph-based orchestration, state management, extensible for cycles and conditional branches.
+
+Why FAISS: Fast for local/small datasets, no external service. Can swap to Pinecone/Chroma for scale.
+
+insufficient_quota fix: Use GROQ_API_KEY for free testing, or add billing at platform.openai.com.
+
+FAISS index not updating: Delete data/faiss_index/ or data/faiss_index_hf/ to force rebuild after editing knowledge_base.txt.
+
+How to add a new node: Add function in app/nodes.py, register in app/graph.py with graph.add_node and graph.add_edge.
+
+How to add evaluation questions: Add { "question": "...", "answer": "..." } to data/dataset.json.
